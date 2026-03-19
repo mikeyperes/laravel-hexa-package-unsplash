@@ -1,6 +1,6 @@
 {
     "name": "hexawebsystems/laravel-hexa-package-unsplash",
-    "description": "Unsplash stock photo API integration for the Hexa Core framework.",
+    "description": "Unsplash — stock photo API integration for high-resolution image search, download, and attribution.",
     "type": "library",
     "license": "proprietary",
     "require": {
