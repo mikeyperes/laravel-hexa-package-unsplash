@@ -9,7 +9,7 @@ class UnsplashServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        ->mergeConfigFrom(__DIR__ . '/../../config/unsplash.php', 'unsplash');
+        $this->mergeConfigFrom(__DIR__ . '/../../config/unsplash.php', 'unsplash');
         $this->app->singleton(UnsplashService::class);
     }
 
