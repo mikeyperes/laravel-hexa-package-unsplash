@@ -4,6 +4,7 @@ namespace hexa_package_unsplash\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use hexa_package_unsplash\Services\UnsplashService;
+use hexa_core\Services\PackageRegistryService;
 
 /**
  * UnsplashServiceProvider — registers Unsplash package routes, views, config,
@@ -32,23 +33,10 @@ class UnsplashServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__ . '/../../routes/unsplash.php');
         $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'unsplash');
 
-        // Sidebar menu injection (skipped when app controls sidebar)
-        $this->registerSidebarMenu();
-    }
-
-    /**
-     * Register sidebar menu items via view composer.
-     *
-     * @return void
-     */
-    private function registerSidebarMenu(): void
-    {
-        view()->composer('layouts.app', function ($view) {
-            if (config('hexa.app_controls_sidebar', false)) return;
-            $factory = app('view');
-            $factory->startPush('sidebar-sandbox');
-            echo $factory->make('unsplash::partials.sidebar-menu')->render();
-            $factory->stopPush();
-        });
+        // Sidebar links — registered via PackageRegistryService with auto permission checks
+        if (!config('hexa.app_controls_sidebar', false)) {
+            $registry = app(PackageRegistryService::class);
+            $registry->registerSidebarLink('unsplash.index', 'Unsplash', 'M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z', 'Sandbox', 'unsplash', 86);
+        }
     }
 }
